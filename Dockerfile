@@ -5,7 +5,7 @@ WORKDIR /app
 COPY ./server ./server
 WORKDIR /app/server
 RUN bun install
-RUN bun run b
+
 
 
 WORKDIR /app

@@ -6,6 +6,7 @@
     "db-generate": "bunx prisma generate",
     "db-migrate": "bunx prisma migrate dev --name markit",
     "dev": "bun run compile && bun run db-migrate && bun run db-generate && bun prod/index.js",
+    "docker": "bun run compile && bun run db-migrate && bun run db-generate",
     "compile": "tsc -b"
   },
   "devDependencies": {
