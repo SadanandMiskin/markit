@@ -3,17 +3,21 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run b && bun prod/index.js" ,
-    "b": "tsc -b"
+    "db-generate": "bunx prisma generate",
+    "db-migrate": "bunx prisma migrate dev --name markit",
+    "dev": "bun run compile && bun run db-migrate && bun run db-generate && bun prod/index.js",
+    "compile": "tsc -b"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "prisma": "^6.2.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@prisma/client": "6.2.1",
     "express": "^4.21.2"
   }
 }
