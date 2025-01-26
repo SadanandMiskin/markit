@@ -3,22 +3,42 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "db-docker-test": "docker build -t mysql-a . && docker run --name mysql-a -d -e MYSQL_ROOT_PASSWORD=0202 -p 3306:3306 -v mysql-data:/var/lib/mysql --rm  mysql  && echo Waiting &&sleep 10",
     "db-generate": "bunx prisma generate",
-    "db-migrate": "bunx prisma migrate dev --name markit",
-    "dev": "bun run compile && bun run db-migrate && bun run db-generate && bun prod/index.js",
+    "db-migrate": "bunx prisma migrate deploy",
+    "dev-local": "bun run db-docker-test && bun run docker &&  bun prod/index.js",
     "docker": "bun run compile && bun run db-migrate && bun run db-generate",
     "compile": "tsc -b"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.0",
-    "prisma": "^6.2.1"
+    "@types/express-session": "^1.18.1",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.10.10",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "prisma": "^6.2.1",
+    "ts-node": "^10.9.2"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@prisma/client": "6.2.1",
-    "express": "^4.21.2"
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }

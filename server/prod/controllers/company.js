@@ -9,27 +9,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompanyDetails = void 0;
+exports.CompanyController = CompanyController;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getCompanyDetails = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email } = req.body;
-    try {
-        const company = {
-            id: 1,
-            name: name,
-            description: email,
-            type: "marketing"
-        };
-        const newUser = yield prisma.company.create({
-            data: company
+class CompanyHandler {
+    constructor(name, description, type) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+    }
+    savCompanyDetails(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const newUser = yield prisma.company.create({
+                    data: {
+                        name: this.name,
+                        description: this.description,
+                        type: this.type
+                    }
+                });
+                res.status(200).json(newUser);
+            }
+            catch (error) {
+                next(error);
+            }
         });
-        console.log(newUser);
-        res.json(newUser);
     }
-    catch (error) {
-        console.log('ERRORORO ', error);
-        next(error);
-    }
-});
-exports.getCompanyDetails = getCompanyDetails;
+}
+function CompanyController(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { name, description, type } = req.body;
+        const company = new CompanyHandler(name, description, type);
+        yield company.savCompanyDetails(req, res, next);
+    });
+}
